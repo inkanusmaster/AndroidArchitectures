@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
+        android:onClick="onMVC"
         android:text="@string/button_mvc_text" />
 
     <Button
@@ -18,6 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
+        android:onClick="onMVP"
         android:text="@string/button_mvp_text" />
 
     <Button
@@ -25,6 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
+        android:onClick="onMVVM"
         android:text="@string/button_mvvm_text" />
 
 </LinearLayout>
