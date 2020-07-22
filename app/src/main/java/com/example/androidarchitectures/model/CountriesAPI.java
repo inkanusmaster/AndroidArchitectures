@@ -1,6 +1,7 @@
 package com.example.androidarchitectures.model;
 
 //Biblioteka retrofit będzie tutaj. Interface do retrofita z tego co zrozumiałem
+//Retrofit korzysta z interfejsu i to właśnie ten interfejs
 
 import java.util.List;
 

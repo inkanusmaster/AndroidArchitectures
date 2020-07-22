@@ -8,5 +8,5 @@ import com.google.gson.annotations.SerializedName;
 
 public class Country {
     @SerializedName("name") //Będziemy pobierać name. Serializacja potrzebna do przesyłania. GSON
-    public String countryName;
+    public String countryName; //Do tej zmiennej przypisujemy to co pobrane z name
 }
