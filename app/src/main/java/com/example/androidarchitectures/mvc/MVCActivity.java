@@ -45,6 +45,12 @@ public class MVCActivity extends AppCompatActivity {
     private ArrayAdapter<String> arrayAdapter; //arrayadapter do listy. To kojarzysz
     private ListView listView;
 
+    public void setCountries(List<String> countries) { //metoda dodająca państwa na listę. Czyścimy, dodajemy, updatujemy adapter
+        listOfCountries.clear();
+        listOfCountries.addAll(countries);  //addAll dodaje wszystkie wartości. W końcu przekazujemy całą listę countries w parametrze.
+        arrayAdapter.notifyDataSetChanged();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,14 +60,37 @@ public class MVCActivity extends AppCompatActivity {
         listView = findViewById(R.id.listView);
         arrayAdapter = new ArrayAdapter<>(this, R.layout.row_layout, R.id.listViewRow, listOfCountries);    //listViewRow to id layoutu row. Nie wiem czemu oba podane. Może być bez tego cjuba
         listView.setAdapter(arrayAdapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() { //implementujemy listener na kliknięcie itemu.
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(MVCActivity.this, "KLIKNIĘTO!!!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MVCActivity.this, "YOU CLICKED " + listOfCountries.get(i), Toast.LENGTH_SHORT).show();
             }
         });
 
+        //Dodajemy tutaj teraz ręcznie jakieś testowe wartości
+        //UWAGA TO JEST TYPOWE DLA APLIKACJI. ALE ZROBIMY TO Z KONTROLEREM LADNIE
+        ArrayList<String> tempCountries = new ArrayList<>();
+        tempCountries.add("Poland");
+        tempCountries.add("England");
+        tempCountries.add("USA");
+        tempCountries.add("Germany");
+        tempCountries.add("Russia");
+        tempCountries.add("Slovakia");
+        tempCountries.add("Poland");
+        tempCountries.add("England");
+        tempCountries.add("USA");
+        tempCountries.add("Germany");
+        tempCountries.add("Russia");
+        tempCountries.add("Slovakia");
+        tempCountries.add("Poland");
+        tempCountries.add("England");
+        tempCountries.add("USA");
+        tempCountries.add("Germany");
+        tempCountries.add("Russia");
+        tempCountries.add("Slovakia");
+        setCountries(tempCountries); //wywołuemy metodę setCountries i jako parametr podajemy cała listę
     }
+
 
     //Tworzymy to po to aby móc uruchamiać aktywności. Intent uruchamia aktywności.
     //Wydaje mi się, że to dlatego tak robimy, ponieważ mamy Aktywności w różnych pakietach.

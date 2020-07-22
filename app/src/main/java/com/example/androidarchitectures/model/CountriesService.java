@@ -1,6 +1,6 @@
 package com.example.androidarchitectures.model;
 
-//Ta karta odpytuje się endpointa i zwraca informację
+//Ta klasa odpytuje się endpointa i zwraca informację
 
 import java.util.List;
 
@@ -33,5 +33,4 @@ public class CountriesService {
     public Single<List<Country>> getCountries() {
         return api.getCountries();
     }
-
 }
