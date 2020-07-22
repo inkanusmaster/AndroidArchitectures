@@ -44,7 +44,9 @@ public class MVCActivity extends AppCompatActivity {
     private List<String> listOfCountries = new ArrayList<>();   //lista z państwami
     private ArrayAdapter<String> arrayAdapter; //arrayadapter do listy. To kojarzysz
     private ListView listView;
+    private CountriesController countriesControllerCONTROLLER; //Będziemy się kontaktować z kontrolerem
 
+    //Kontroler będzie wykorzystywał tę metodę do przekazywania informacji
     public void setCountries(List<String> countries) { //metoda dodająca państwa na listę. Czyścimy, dodajemy, updatujemy adapter
         listOfCountries.clear();
         listOfCountries.addAll(countries);  //addAll dodaje wszystkie wartości. W końcu przekazujemy całą listę countries w parametrze.
@@ -57,40 +59,18 @@ public class MVCActivity extends AppCompatActivity {
         setContentView(R.layout.activity_m_v_c);
         setTitle("MVC");
 
+        countriesControllerCONTROLLER = new CountriesController(this);  //inicjalizujemy. W parametrze this - ten VIEW. Tworzy obiekt. W momencie gdy jest stworzony powinien wywołać jego metodę fetchCountries(), która zaktualizuje nasz widok.
+
         listView = findViewById(R.id.listView);
         arrayAdapter = new ArrayAdapter<>(this, R.layout.row_layout, R.id.listViewRow, listOfCountries);    //listViewRow to id layoutu row. Nie wiem czemu oba podane. Może być bez tego cjuba
         listView.setAdapter(arrayAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() { //implementujemy listener na kliknięcie itemu.
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(MVCActivity.this, "YOU CLICKED " + listOfCountries.get(i), Toast.LENGTH_SHORT).show();
+                Toast.makeText(MVCActivity.this, "You clicked " + listOfCountries.get(i), Toast.LENGTH_SHORT).show();
             }
         });
-
-        //Dodajemy tutaj teraz ręcznie jakieś testowe wartości
-        //UWAGA TO JEST TYPOWE DLA APLIKACJI. ALE ZROBIMY TO Z KONTROLEREM LADNIE
-        ArrayList<String> tempCountries = new ArrayList<>();
-        tempCountries.add("Poland");
-        tempCountries.add("England");
-        tempCountries.add("USA");
-        tempCountries.add("Germany");
-        tempCountries.add("Russia");
-        tempCountries.add("Slovakia");
-        tempCountries.add("Poland");
-        tempCountries.add("England");
-        tempCountries.add("USA");
-        tempCountries.add("Germany");
-        tempCountries.add("Russia");
-        tempCountries.add("Slovakia");
-        tempCountries.add("Poland");
-        tempCountries.add("England");
-        tempCountries.add("USA");
-        tempCountries.add("Germany");
-        tempCountries.add("Russia");
-        tempCountries.add("Slovakia");
-        setCountries(tempCountries); //wywołuemy metodę setCountries i jako parametr podajemy cała listę
     }
-
 
     //Tworzymy to po to aby móc uruchamiać aktywności. Intent uruchamia aktywności.
     //Wydaje mi się, że to dlatego tak robimy, ponieważ mamy Aktywności w różnych pakietach.
