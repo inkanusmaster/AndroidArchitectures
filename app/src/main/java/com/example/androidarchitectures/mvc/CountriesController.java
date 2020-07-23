@@ -15,17 +15,22 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 
+
 public class CountriesController {
 
     private MVCActivity mvcActivityVIEW;    //Będziemy tutaj kontaktować się w taki sposób z naszym VIEW (MVCActivity).
     private CountriesService countriesServiceMODEL;     //A tu będziemy kontaktować się z naszym MODEL.
+
+    public void refresh() {  //Button refresh, który jeszcze raz robi fetchCountries
+        fetchCountries();
+    }
 
     @SuppressLint("CheckResult")
     private void fetchCountries() {  //Wyciągamy z API kraje. Ewidentnie obserwator RXJava.
         countriesServiceMODEL.getCountries() //Wywoułujemy z MODEL metodę getCountries(). Przypominamy typ metody: Single<List<Country>>. Zwróci nam to Single. To jest Observable
                 .subscribeOn(Schedulers.newThread())  //Metoda mówi systemowi to musi być uruchomione w wątku tła.
                 .observeOn(AndroidSchedulers.mainThread())   //To jest uruchomione w tle, ale mówimy mu: observeOn. To takie 2 standardowe operacje. Wykonujemy je w wątku tła i obserwujemy w głównym.
-                .subscribeWith(new DisposableSingleObserver<List<Country>>() {  //Subskrybujemy. Mamy observer List<Country>
+                .subscribeWith(new DisposableSingleObserver<List<Country>>() {  //Subskrybujemy. Mamy observer List<Country>. To taki jakby callback?
 
                     @Override
                     public void onSuccess(List<Country> value) {    //Dodajemy w pętli do tymczasowej listy countryNames wartość pola countryName z klasy Country
@@ -37,14 +42,14 @@ public class CountriesController {
                     }
 
                     @Override
-                    public void onError(Throwable e) {
+                    public void onError(Throwable e) {  //Obsłużymy błąd. Jak wystąpi to chcemy żeby pojawił się button z napisem Retry
 
                     }
                 });
     }
 
     public CountriesController(MVCActivity mvcActivityVIEW) {   //Konstruktor. Widzimy że przyjmuje VIEW w parametrze przy tworzeniu
-        this.mvcActivityVIEW = mvcActivityVIEW;     //Powiązanie VIEW!
+        this.mvcActivityVIEW = mvcActivityVIEW;     //Powiązanie VIEW! Dzięki czemu w metodzie fetchCountries() przekażemy mu kraje przez wywołanie jej metody setCountries()
         countriesServiceMODEL = new CountriesService();     //Inicjalizacja obiektu MODEL. Przy tworzeniu uruchamiamy jego konstruktor, który przez API gada.
         fetchCountries();   //mamy już linijkę wyżej utworzony obiekt i wywołany konstruktor. Toteż możemy teraz wywołać metodę fetchCountries(), która przez API pobierze swoją metodą getCountries dane.
     }

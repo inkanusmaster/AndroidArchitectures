@@ -8,7 +8,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.androidarchitectures.R;
@@ -45,11 +47,29 @@ public class MVCActivity extends AppCompatActivity {
     private ArrayAdapter<String> arrayAdapter; //arrayadapter do listy. To kojarzysz
     private ListView listView;
     private CountriesController countriesControllerCONTROLLER; //Będziemy się kontaktować z kontrolerem
+    private Button retryButton; //Button do ponownego wczytania krajów
+    private ProgressBar progressBar;    //Będzie się kręcić przy wczytywaniu
+
+    //Przycisk retry. Jak wyskoczy błąd to pojawi się button.
+    public void retryButton(View view) {
+        countriesControllerCONTROLLER.refresh();    //wywołuje metodę efresh z CONTROLLER. Pokazujemy tylko progress bar przy kliknięciu Retry
+        retryButton.setVisibility(View.GONE);
+        progressBar.setVisibility(View.VISIBLE);
+        listView.setVisibility(View.GONE);
+    }
+
+    public void error(){
+        Toast.makeText(this, R.string.error_message, Toast.LENGTH_SHORT).show();    //extract string resource zrobiliśmy
+    }
+
 
     //Kontroler będzie wykorzystywał tę metodę do przekazywania informacji
     public void setCountries(List<String> countries) { //metoda dodająca państwa na listę. Czyścimy, dodajemy, updatujemy adapter
         listOfCountries.clear();
         listOfCountries.addAll(countries);  //addAll dodaje wszystkie wartości. W końcu przekazujemy całą listę countries w parametrze.
+        retryButton.setVisibility(View.GONE);   //ukrywamy button
+        progressBar.setVisibility(View.GONE);   //ukrywamy kółko
+        listView.setVisibility(View.VISIBLE);   //pokazujemy listę
         arrayAdapter.notifyDataSetChanged();
     }
 
@@ -60,6 +80,9 @@ public class MVCActivity extends AppCompatActivity {
         setTitle("MVC");
 
         countriesControllerCONTROLLER = new CountriesController(this);  //inicjalizujemy. W parametrze this - ten VIEW. Tworzy obiekt. W momencie gdy jest stworzony powinien wywołać jego metodę fetchCountries(), która zaktualizuje nasz widok.
+
+        retryButton = findViewById(R.id.retryButton);
+        progressBar = findViewById(R.id.progressBar);
 
         listView = findViewById(R.id.listView);
         arrayAdapter = new ArrayAdapter<>(this, R.layout.row_layout, R.id.listViewRow, listOfCountries);    //listViewRow to id layoutu row. Nie wiem czemu oba podane. Może być bez tego cjuba

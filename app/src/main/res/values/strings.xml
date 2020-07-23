@@ -3,4 +3,6 @@
     <string name="button_mvc_text">MVC</string>
     <string name="button_mvp_text">MVP</string>
     <string name="button_mvvm_text">MVVM</string>
+    <string name="retryButton">Retry</string>
+    <string name="error_message">Unable to get country names. Please, retry later</string>
 </resources>
