@@ -45,16 +45,17 @@ import java.util.List;
 
 public class MVCActivity extends AppCompatActivity {
 
+    private CountriesController countriesControllerCONTROLLER; //Będziemy się kontaktować z kontrolerem
+
     private List<String> listOfCountries = new ArrayList<>();   //lista z państwami
     private ArrayAdapter<String> arrayAdapter; //arrayadapter do listy. To kojarzysz
     private ListView listView;
-    private CountriesController countriesControllerCONTROLLER; //Będziemy się kontaktować z kontrolerem
     private Button retryButton; //Button do ponownego wczytania krajów
     private ProgressBar progressBar;    //Będzie się kręcić przy wczytywaniu
 
     //Przycisk retry. Jak wyskoczy błąd to pojawi się button.
     public void retryButton(View view) {
-        countriesControllerCONTROLLER.refresh();    //wywołuje metodę efresh z CONTROLLER. Pokazujemy tylko progress bar przy kliknięciu Retry
+        countriesControllerCONTROLLER.refresh();    //wywołuje metodę refresh z CONTROLLER. Pokazujemy tylko progress bar przy kliknięciu Retry
         retryButton.setVisibility(View.GONE);
         progressBar.setVisibility(View.VISIBLE);
         listView.setVisibility(View.GONE);

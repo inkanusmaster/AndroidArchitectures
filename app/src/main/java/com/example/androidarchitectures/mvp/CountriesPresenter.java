@@ -1,8 +1,4 @@
-package com.example.androidarchitectures.mvc;
-
-//Kontroler. Będzie tworzony przez aktywność. Będzie odpytywał API endpoint i zwracał wartości. Będzie również gadał z aktywnością i aktualizował UI
-//Czyli to co powinien robić kontroler.
-//Logika. Z modelu odpytuje o kraje. Jak je uzyska, przekazuje do VIEW, jak nie, pokazuje error
+package com.example.androidarchitectures.mvp;
 
 import android.annotation.SuppressLint;
 
@@ -17,19 +13,17 @@ import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 
 
-public class CountriesController {
 
-    private MVCActivity mvcActivityVIEW;    //Będziemy tutaj kontaktować się w taki sposób z naszym VIEW (MVCActivity).
+public class CountriesPresenter {
+    /////////////////Widać tu wyraźnie, że PRESENTER nie ma silnego powiązania z VIEW...////////////
+    private View mvpView;    //Prezenter nie wie, do którego VIEW gada. Wiec laczy sie z czymś co implementuje interfejs View.
+
     private CountriesService countriesServiceMODEL;     //A tu będziemy kontaktować się z naszym MODEL.
 
-    public CountriesController(MVCActivity mvcActivityVIEW) {   //Konstruktor. Widzimy że przyjmuje VIEW w parametrze przy tworzeniu
-        this.mvcActivityVIEW = mvcActivityVIEW;     //Powiązanie VIEW! Dzięki czemu w metodzie fetchCountries() przekażemy mu kraje przez wywołanie jej metody setCountries()
+    public CountriesPresenter(View mvpView) {   //Konstruktor. Przesyłamy więc View do konstruktora (interfejs)
+        this.mvpView = mvpView;     //Powiązanie VIEW! Dzięki czemu w metodzie fetchCountries() przekażemy mu kraje przez wywołanie jej metody setCountries()
         countriesServiceMODEL = new CountriesService();     //Inicjalizacja obiektu MODEL. Przy tworzeniu uruchamiamy jego konstruktor, który przez API gada.
         fetchCountries();   //mamy już linijkę wyżej utworzony obiekt i wywołany konstruktor. Toteż możemy teraz wywołać metodę fetchCountries(), która przez API pobierze swoją metodą getCountries dane.
-    }
-
-    public void refresh() {  //Button refresh, który jeszcze raz robi fetchCountries
-        fetchCountries();
     }
 
     @SuppressLint("CheckResult")
@@ -45,15 +39,31 @@ public class CountriesController {
                         for (Country country : value) {
                             countryNames.add(country.countryName);
                         }
-                        mvcActivityVIEW.setCountries(countryNames); //Wywołujemy metodę setCountries naszego VIEW, a tam aktualizacja widoku.
-//                        mvcActivityVIEW.error(); //testujemy onError tutaj
+                        mvpView.setCountries(countryNames); //Wywołujemy metodę setCountries naszego VIEW, a tam aktualizacja widoku.
                     }
+
+                    ///////
+                    /////// Nie wiemy, która klasa implementuje interfejs View. Wiemy, że metody setCountries() (powyżej) i onError() (poniżej) są dostępne, więc możemy się do nich odwołać.
+                    ///////
 
                     @Override
                     public void onError(Throwable e) {  //Obsłużymy błąd. Jak wystąpi to chcemy żeby pojawił się button z napisem Retry
-                        mvcActivityVIEW.error();    //Metoda error z VIEW
+                        mvpView.onError();    //Metoda error z VIEW
                     }
                 });
+    }
+
+    public void refresh() {  //Button refresh, który jeszcze raz robi fetchCountries
+        fetchCountries();
+    }
+
+    //Nie wiemy, z którym VIEW będziemy mieli do czynienia w MVP, więc tworzymy interfejs.
+    //Będzie miał dwie metody do implementacji (dodawanie państw z metody onSuccess MVC i onError z MVC).
+    //Prezenter mówi: potrzebuję tych 2 metod. Jeśli możesz je wykonać, dogadam się z tobą.
+    public interface View {
+        void setCountries(List<String> countries);
+
+        void onError();
     }
 
 }
