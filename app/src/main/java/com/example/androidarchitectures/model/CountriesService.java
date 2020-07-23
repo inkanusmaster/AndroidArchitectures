@@ -1,5 +1,6 @@
 package com.example.androidarchitectures.model;
 
+//MODEL. Pobiera informację z backendu
 //Ta klasa odpytuje się endpointa i zwraca informację
 
 import java.util.List;

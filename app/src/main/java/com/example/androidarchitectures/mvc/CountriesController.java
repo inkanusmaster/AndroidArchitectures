@@ -1,7 +1,8 @@
 package com.example.androidarchitectures.mvc;
 
 //Kontroler. Będzie tworzony przez aktywność. Będzie odpytywał API endpoint i zwracał wartości. Będzie również gadał z aktywnością i aktualizował UI
-//Czyli to co powinien robić kontroler
+//Czyli to co powinien robić kontroler.
+//Logika. Z modelu odpytuje o kraje. Jak je uzyska, przekazuje do VIEW, jak nie, pokazuje error
 
 import android.annotation.SuppressLint;
 
@@ -39,11 +40,12 @@ public class CountriesController {
                             countryNames.add(country.countryName);
                         }
                         mvcActivityVIEW.setCountries(countryNames); //Wywołujemy metodę setCountries naszego VIEW, a tam aktualizacja widoku.
+//                        mvcActivityVIEW.error(); //testujemy onError tutaj
                     }
 
                     @Override
                     public void onError(Throwable e) {  //Obsłużymy błąd. Jak wystąpi to chcemy żeby pojawił się button z napisem Retry
-
+                        mvcActivityVIEW.error();    //Metoda error z VIEW
                     }
                 });
     }

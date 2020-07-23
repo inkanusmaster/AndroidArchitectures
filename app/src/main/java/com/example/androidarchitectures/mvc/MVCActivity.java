@@ -41,6 +41,8 @@ import java.util.List;
 // To jest jedna z wad tego rozwiązania.
 // Tak czy inaczej, zróbmy to.
 
+//TO JEST VIEW. Aktywność, która wyświetla informacje i decyduje jak je wyświetlić w zależności od sytuacji
+
 public class MVCActivity extends AppCompatActivity {
 
     private List<String> listOfCountries = new ArrayList<>();   //lista z państwami
@@ -58,10 +60,12 @@ public class MVCActivity extends AppCompatActivity {
         listView.setVisibility(View.GONE);
     }
 
-    public void error(){
-        Toast.makeText(this, R.string.error_message, Toast.LENGTH_SHORT).show();    //extract string resource zrobiliśmy
+    public void error() {
+        Toast.makeText(this, R.string.error_message, Toast.LENGTH_SHORT).show();    //extract string resource zrobiliśmy. Na error pokazujemy tylko button
+        progressBar.setVisibility(View.GONE);
+        listView.setVisibility(View.GONE);
+        retryButton.setVisibility(View.VISIBLE);
     }
-
 
     //Kontroler będzie wykorzystywał tę metodę do przekazywania informacji
     public void setCountries(List<String> countries) { //metoda dodająca państwa na listę. Czyścimy, dodajemy, updatujemy adapter
