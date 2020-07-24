@@ -14,8 +14,6 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.androidarchitectures.R;
-import com.example.androidarchitectures.mvc.CountriesController;
-import com.example.androidarchitectures.mvc.MVCActivity;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -13,7 +13,6 @@ import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 
 
-
 public class CountriesPresenter {
     /////////////////Widać tu wyraźnie, że PRESENTER nie ma silnego powiązania z VIEW...////////////
     private View mvpView;    //Prezenter nie wie, do którego VIEW gada. Wiec laczy sie z czymś co implementuje interfejs View.
